@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contacts: List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <ul th:each="contact: ${contactsList}">
+        <li th:text="${contact.name}"></li>
+    </ul>
+</body>
+</html>

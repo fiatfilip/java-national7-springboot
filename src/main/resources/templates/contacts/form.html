@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contacts: Add</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="/contacts">List Contacts</a>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post">
+                <input type="hidden" name="id" th:value="${contact != null && contact.isPresent() ? contact.get().id : ''}">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:value="${contact != null && contact.isPresent() ? contact.get().name: ''}"> <br>
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" th:value="${contact != null && contact.isPresent() ? contact.get().surname: ''}"> <br>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" th:value="${contact != null && contact.isPresent() ? contact.get().emailAddress : ''}"> <br>
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone" th:value="${contact != null && contact.isPresent() ? contact.get().phoneNumber: ''}"> <br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
