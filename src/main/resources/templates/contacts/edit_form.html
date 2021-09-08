@@ -20,15 +20,18 @@
         </div>
         <div class="row">
             <form method="post">
-                <input type="hidden" name="id" th:value="${contact != null && contact.isPresent() ? contact.get().id : ''}">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}" />
+                <input type="hidden" name="id" th:value="${contact != null ? contact.id : ''}">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" th:value="${contact != null && contact.isPresent() ? contact.get().name: ''}"> <br>
+                <input type="text" id="name" name="name" th:value="${contact != null ? contact.name: ''}"> <br>
                 <label for="surname">Surname:</label>
-                <input type="text" id="surname" name="surname" th:value="${contact != null && contact.isPresent() ? contact.get().surname: ''}"> <br>
+                <input type="text" id="surname" name="surname" th:value="${contact != null ? contact.surname: ''}"> <br>
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="email" th:value="${contact != null && contact.isPresent() ? contact.get().emailAddress : ''}"> <br>
+                <input type="text" id="email" name="email" th:value="${contact != null ? contact.emailAddress : ''}"> <br>
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" th:value="${contact != null && contact.isPresent() ? contact.get().phoneNumber: ''}"> <br>
+                <input type="text" id="phone" name="phone" th:value="${contact != null ? contact.phoneNumber: ''}"> <br>
                 <input type="submit" value="Submit">
             </form>
         </div>

@@ -1,11 +1,8 @@
 package ro.siit.demoSpringBoot.controller;
 
-import jdk.jfr.Percentage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ro.siit.demoSpringBoot.entity.Contact;
 import ro.siit.demoSpringBoot.repository.ContactRepository;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,16 +23,14 @@ public class ContactsController {
 
     @GetMapping({"/", ""})
     public String list(Model model){
-        //  repository.save(new Contact(UUID.randomUUID(), "nameX", "surnameX", "emailX", "phoneX", "profileX"));
         Iterable<Contact> contactsList = repository.findAll();
-        //
-        model.addAttribute("contactsList", contactsList /*new  ArrayList<Contact>()*/);
+        model.addAttribute("contactsList", contactsList);
         return "contacts/list";
     }
 
     @GetMapping({"/add"})
     public String displayAddForm() {
-        return "contacts/form";
+        return "contacts/add_form";
     }
 
     @PostMapping({"/add"})
@@ -47,7 +41,7 @@ public class ContactsController {
                              Model model) {
         repository.save(new Contact(UUID.randomUUID(), name, surname, email, phone, "profileX"));
         Iterable<Contact> contactsList = repository.findAll();
-        model.addAttribute("contactsList", contactsList /*new  ArrayList<Contact>()*/);
+        model.addAttribute("contactsList", contactsList);
         return "contacts/list";
     }
 
@@ -62,8 +56,8 @@ public class ContactsController {
     @GetMapping({"/edit"})
     public String showEditForm(@RequestParam("contact_id") String id, Model model) {
         Optional<Contact> contact = repository.findById(UUID.fromString(id));
-        model.addAttribute("contact", contact);
-        return "contacts/form";
+        model.addAttribute("contact", contact.isPresent() ? contact.get(): null);
+        return "contacts/edit_form";
     }
 
     @PostMapping({"/edit"})
@@ -72,7 +66,10 @@ public class ContactsController {
                               @Param("surname") String surname,
                               @Param("email") String email,
                               @Param("phone") String phone, Model model) {
-        repository.save(new Contact(UUID.fromString(id), name, surname, email, phone, "profileX"));
+        Optional<Contact> contactToBeUpdated = repository.findById(UUID.fromString(id));
+        if(contactToBeUpdated.isPresent()) {
+            repository.save(new Contact(UUID.fromString(id), name, surname, email, phone, "profileX"));
+        }
         Iterable<Contact> contactsList = repository.findAll();
         model.addAttribute("contactsList", contactsList );
         return "contacts/list";
