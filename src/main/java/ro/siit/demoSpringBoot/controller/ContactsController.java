@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ro.siit.demoSpringBoot.entity.Contact;
+import ro.siit.demoSpringBoot.entity.PhoneNumber;
 import ro.siit.demoSpringBoot.repository.ContactRepository;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("contacts")
@@ -39,7 +39,17 @@ public class ContactsController {
                              @Param("email") String email,
                              @Param("phone") String phone,
                              Model model) {
-        repository.save(new Contact(UUID.randomUUID(), name, surname, email, phone, "profileX"));
+        Contact contact = new Contact(UUID.randomUUID(), name, surname, email, "profileX");
+
+        Set<PhoneNumber> phones = new HashSet<>();
+        PhoneNumber phoneNumber = new PhoneNumber(UUID.randomUUID(), phone);
+        phoneNumber.setContact(contact);
+        phones.add(phoneNumber);
+
+        contact.setPhoneNumbers(phones);
+
+        repository.save(contact);
+
         Iterable<Contact> contactsList = repository.findAll();
         model.addAttribute("contactsList", contactsList);
         return "contacts/list";
@@ -68,7 +78,9 @@ public class ContactsController {
                               @Param("phone") String phone, Model model) {
         Optional<Contact> contactToBeUpdated = repository.findById(UUID.fromString(id));
         if(contactToBeUpdated.isPresent()) {
-            repository.save(new Contact(UUID.fromString(id), name, surname, email, phone, "profileX"));
+            repository.save(new Contact(UUID.fromString(id), name, surname, email, "profileX"));
+            //List<PhoneNumber> phones = new ArrayList<>();
+            // phones.add(new PhoneNumber(UUID))
         }
         Iterable<Contact> contactsList = repository.findAll();
         model.addAttribute("contactsList", contactsList );

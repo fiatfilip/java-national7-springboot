@@ -34,7 +34,7 @@
                             <td th:text="${contact.name}"></td>
                             <td th:text="${contact.surname}"></td>
                             <td th:text="${contact.emailAddress}"></td>
-                            <td th:text="${contact.phoneNumber}"></td>
+                            <td th:text="${contact.phoneNumbers}"></td>
                             <td><a th:href="@{'/contacts/edit?contact_id=' + ${contact.id}}">Edit</a> |
                                 <a th:href="@{'/contacts/delete?contact_id=' + ${contact.id}}">Delete</a></td>
                         </tr>
